@@ -23,9 +23,11 @@ def get_versioned_template(template_filename, bucket, solution, version, region)
         template_text = template_text.replace("%bucket%", bucket)
         template_text = template_text.replace("%solution%", solution)
         template_text = template_text.replace("%version%", version)
-        if runtime_region == 'cn-north-1' or runtime_region == 'cn-northwest-1':
-            arn_cn = "arn:aws-cn:"
-            template_text = template_text.replace("%arn:aws:%", arn_cn)
+        if region == 'cn-north-1' or region == 'cn-northwest-1':
+            arn_prefix = "arn:aws-cn"
+        else:
+            arn_prefix = "arn:aws"
+        template_text = template_text.replace("%arn_prefix%", arn_prefix)
         return json.loads(template_text, object_pairs_hook=OrderedDict)
 
 
