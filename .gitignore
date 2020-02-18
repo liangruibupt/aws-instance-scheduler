@@ -4,6 +4,7 @@
 deployment/open-source
 deployment/dist
 source/deploy
+deployment/global-s3-assets
 
 .env
 source/code/sample_events
