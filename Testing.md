@@ -85,8 +85,10 @@ RDS示例
 
 
 ## Step 5. Check result 检查结果
-    Check the tagged ec2 instance and non-tagged ec2 instance start/stop as expected
-    检查标记的ec2实例和未标记的ec2实例是否按预期方式启动/停止
+    
+> Check the tagged ec2 instance and non-tagged ec2 instance start/stop as expected
+
+> 检查标记的ec2实例和未标记的ec2实例是否按预期方式启动/停止
 
 1. DynamoDB Table记录示例状态
 ![](resource/images/schedule-result.png)
@@ -169,16 +171,16 @@ aws rds describe-db-instances --db-instance-identifier dains --query 'DBInstance
 5. Testing 测试 
 
     5.1 launch EC2 instance in secondary account (both cn-north-1 and cn-northwest-1 region) 
-    
+
     在辅助帐户（cn-north-1和cn-northwest-1地区）中启动EC2实例
 
     5.2 modify the period which let scheduler stop all started instance for both primary and secondary account
 
     修改使调度程序停止主帐户和辅助帐户的所有已启动实例
 
-```bash
-scheduler-cli update-period --stack Instance-Scheduler --name office-hours-09to21 --weekdays mon-fri --begintime 9:00 --endtime 15:15 --region cn-northwest-1 --profile cn-north-1
-```
+    ```bash
+    scheduler-cli update-period --stack Instance-Scheduler --name office-hours-09to21 --weekdays mon-fri --begintime 9:00 --endtime 15:15 --region cn-northwest-1 --profile cn-north-1
+    ```
 
     5.3 verify the instances stopped 验证示例均被停止
 
@@ -186,9 +188,7 @@ scheduler-cli update-period --stack Instance-Scheduler --name office-hours-09to2
 
 
 
-## Step 6. Define the SNS subscription for notification any scheduler error
-
-    定义SNS订阅以通知任何调度程序错误
+## Step 6. Define the SNS subscription for notification any scheduler error (定义SNS订阅以通知任何调度程序错误)
 
     Add a subscription to the SNS Topic in the CloudFormation stack output for exception notification
     

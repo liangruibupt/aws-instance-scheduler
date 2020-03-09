@@ -11,7 +11,7 @@ This repo is forked from https://github.com/awslabs/aws-instance-scheduler and m
 
 ## 描述
 用于EC2和RDS实例的跨帐户和跨区域调度的按计划启停调度。
-此存储库来自https://github.com/awslabs/aws-instance-scheduler，并基于v1.3.0版本在中国区域进行了更新
+此存储库来自 https://github.com/awslabs/aws-instance-scheduler 并基于v1.3.0版本在中国区域进行了更新
 
 ## Setup
 
