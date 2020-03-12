@@ -13,52 +13,44 @@ This repo is forked from https://github.com/awslabs/aws-instance-scheduler and m
 用于EC2和RDS实例的跨帐户和跨区域调度的按计划启停调度。
 此存储库来自 https://github.com/awslabs/aws-instance-scheduler 并基于v1.3.0版本在中国区域进行了更新
 
-## Setup
-
+## Setup 部署
 Deploys from Cloudformation template generate by makefile
-1. You can git clone this repo
-2. run make command, you can specify your {s3_bucket} and {region}
+通过Makefile生成的Cloudformation模板进行部署
+1. You can git clone this repo 
+
+   你可以git克隆这个仓库
+
+2. run make command, you can specify your {s3_bucket} and {region} 
+
+   运行make命令，您可以指定{s3_bucket}和{region}
+
+   Make sure your machine have the zip command installed
+   
+   确保你的运行机器安装了zip
+
 ```bash
 cd aws-instance-scheduler/source/code/
 pip install pytz
 pytz_location=$(pip show pytz | grep Location | cut -d':' -f 2 | tr -d " ")
 cp -r ${pytz_location}/pytz .
 # build
-make bucket=$(bucket) solution=a$(solution) version=$(version) region=$(region)
-# for example: make bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
+## define variable or specify the value of bucket, solution, version, region
+make bucket=${bucket} solution=${solution} version=${version} region=${region}
+## for example: make bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
 # deploy
-make deploy bucket=$(bucket) solution=a$(solution) version=$(version) region=$(region)
+make deploy bucket=${bucket} solution=${solution} version=${version} region=${region}
 # for example: make deploy bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
 rm -r pytz
 ```
-3. After make successfully excuted:
-- A new S3 bucket $(bucket)-$(region) will be automatically created if it is not existed
-- The resources will be automatically uploaded to s3://$(bucket)-$(region)/$(solution)/$(version)/
+
+3. After make successfully excuted （make执行成功后的操作）
+- A new S3 bucket ${bucket}-${region} will be automatically created if it is not existed
+- 如果S3存储桶不存在，那么新的S3存储桶 ${bucket}-${region} 将会被创建
+- The resources will be automatically uploaded to s3://${bucket}-${region}/${solution}/${version}/
+- 资源将自动上传到 s3://${bucket}-${region}/${solution}/${version}/
 - The S3 bucket public access block policy as: BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
-
-
-## 部署
-通过Makefile生成的Cloudformation模板进行部署
-1. 你可以git克隆这个仓库
-2. 运行make命令，您可以指定{s3_bucket}和{region}
-```bash
-cd aws-instance-scheduler/source/code/
-pip install pytz
-pytz_location=$(pip show pytz | grep Location | cut -d':' -f 2 | tr -d " ")
-cp -r ${pytz_location}/pytz .
-# Make build
-make bucket=$(bucket) solution=a$(solution) version=$(version) region=$(region)
-# 示例: make bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
-# 部署
-make deploy bucket=$(bucket) solution=a$(solution) version=$(version) region=$(region)
-# 示例: make deploy bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
-rm -r pytz
-```
-3. make执行成功后的操作
-制作成功后：
-- 如果S3存储桶不存在，那么新的S3存储桶$(bucket)-$(region)将会被创建
-- 资源将自动上传到 s3://$(bucket)-$(region)/$(solution)/$(version)/
 - S3存储桶公共访问阻止策略为：BlockPublicAcls = false，IgnorePublicAcls = true，BlockPublicPolicy = true，RestrictPublicBuckets = true
+
 
 ## Solution Overview
 https://aws.amazon.com/solutions/instance-scheduler/
