@@ -9,8 +9,13 @@
 2. Your CloudFormation tempalte will be stored in 
 
     您的CloudFormation模板将存储在
+    - Primay Account tempalte 主账号模板
 
     s3://$(bucket)-$(region)/$(solution)/$(version)/instance-scheduler.template
+
+    - Secondary A ccount templete 隶属账号模板
+
+    s3://$(bucket)-$(region)/$(solution)/$(version)/instance-scheduler-remote.template
 
 3. Copy the http url of your instance-scheduler.template
 
@@ -37,6 +42,8 @@
 
 ```bash
 # install 安装
+sudo python setup.py install
+OR
 python setup.py install
 ```
 
@@ -48,6 +55,7 @@ scheduler-cli <command> <arguments>
 
 3. Example, 参考样例：创建一个周一到周五，早上9点到21点的period
 ```bash
+# The {stack} is the cloudformation primary stack name, {profile} is the aws cli profile name
 scheduler-cli create-period --stack Instance-Scheduler --name office-hours-09to21 --weekdays mon-fri --begintime 9:00 --endtime 21:00 --region cn-northwest-1 --profile cn-north-1
 ```
 
@@ -58,6 +66,8 @@ https://docs.aws.amazon.com/solutions/latest/instance-scheduler/appendix-a.html
 
 1. Create schedule and attach the periods (创建schedule,将需要的period添加到schedule中)
 ```bash
+# The {stack} is the cloudformation primary stack name, {profile} is the aws cli profile name
+# The {periods} is the periods name created by create-period command
 scheduler-cli create-schedule --stack Instance-Scheduler --name office-hours-09to21 --periods office-hours-09to21 --timezone Asia/Shanghai --region cn-northwest-1 --profile cn-north-1
 
 # check result
@@ -195,3 +205,8 @@ aws rds describe-db-instances --db-instance-identifier dains --query 'DBInstance
     给CloudFormation stack输出中的SNS Topic添加subscription，用于异常通知
 
 ![](resource/images/sns-notification.png)
+
+## Step 7. Cleanup 清理
+You can delete the CloudFormation stack once your complete testing
+
+测试完毕，您可以根据需要删除 CloudFormation stack 
