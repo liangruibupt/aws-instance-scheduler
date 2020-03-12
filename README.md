@@ -25,7 +25,7 @@ Deploys from Cloudformation template generate by makefile
    运行make命令，您可以指定{s3_bucket}和{region}
 
    Make sure your machine have the zip command installed
-   
+
    确保你的运行机器安装了zip
 
 ```bash
@@ -37,6 +37,12 @@ cp -r ${pytz_location}/pytz .
 ## define variable or specify the value of bucket, solution, version, region
 make bucket=${bucket} solution=${solution} version=${version} region=${region}
 ## for example: make bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
+
+# set s3 bucket PublicAccessBlock configuration, make sure you use upgrade your aws cli > 1.18
+aws s3api put-public-access-block \
+    --bucket ${bucket} \
+    --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region ${region}
+
 # deploy
 make deploy bucket=${bucket} solution=${solution} version=${version} region=${region}
 # for example: make deploy bucket=solutions-scheduler solution=aws-instance-scheduler version=v1.3.0 region=cn-northwest-1
@@ -51,6 +57,8 @@ rm -r pytz
 - The S3 bucket public access block policy as: BlockPublicAcls=false,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
 - S3存储桶公共访问阻止策略为：BlockPublicAcls = false，IgnorePublicAcls = true，BlockPublicPolicy = true，RestrictPublicBuckets = true
 
+4. 参考下列文档部署 Cloudformation 和执行相关测试
+[测试效果](Testing.md)
 
 ## Solution Overview
 https://aws.amazon.com/solutions/instance-scheduler/
@@ -70,8 +78,6 @@ https://aws.amazon.com/solutions/instance-scheduler/
 
 ![](resource/images/instance-scheduler-architecture.png)
 
-## 测试效果
-[测试效果](Testing.md)
 
 ***
 
